@@ -277,5 +277,33 @@ main() {
       expect(result.getAIRawData('92'),
           'Test1234Test5678Test1234Test5678Test1234Test');
     });
+
+    test('test with special chars', () {
+      final parser = GS1BarcodeParser.defaultParser();
+
+      final String chars1 = "%&'()*";
+      final String chars2 = '!"+-.,';
+      final String chars3 = ':;=<>?';
+
+      final result1 = parser.parse(
+        '010480901101751121$chars191A12392Test1234Test5678Test1234Test5678Test1234Test',
+      );
+      expect(result1.hasAI('21'), true);
+      expect(result1.getAIRawData('01'), '04809011017511');
+      expect(result1.getAIRawData('21'), chars1);
+      final result2 = parser.parse(
+        '010480901101751121$chars291A12392Test1234Test5678Test1234Test5678Test1234Test',
+      );
+      expect(result2.hasAI('21'), true);
+      expect(result2.getAIRawData('01'), '04809011017511');
+      expect(result2.getAIRawData('21'), chars2);
+
+      final result3 = parser.parse(
+        '010480901101751121$chars391A12392Test1234Test5678Test1234Test5678Test1234Test',
+      );
+      expect(result3.hasAI('21'), true);
+      expect(result3.getAIRawData('01'), '04809011017511');
+      expect(result3.getAIRawData('21'), chars3);
+    });
   });
 }
